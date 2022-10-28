@@ -9,8 +9,9 @@ clock = pygame.time.Clock()
 level = Level(level_map, screen)
 
 while True:
+    key = pygame.key.get_pressed()
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or key[pygame.K_q]:
             pygame.quit()
             exit()
 
