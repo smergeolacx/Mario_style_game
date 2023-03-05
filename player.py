@@ -1,28 +1,36 @@
 import pygame
 
 class Player(pygame. sprite. Sprite):
-    def __init__(self,pos,speed):
+    def __init__(self,pos,):
         super().__init__()
         self.image = pygame.Surface((32,64))
         self.image.fill('red')
         self.rect = self.image.get_rect(topleft =pos)
         self.direction = pygame.math.Vector2(0,0)
-        self.speed = speed
-
-    def move(self,spd):
+        self.speed = 8
+        self.gravity = 0.8
+        self.jump_speed = -12
+    
+    def move(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_UP]: self.direction.y = -1
-        elif keys[pygame.K_DOWN]: self.direction.y = 1
-        else: self.direction.y = 0
+        if keys[pygame.K_d]:
+            self.direction.x = 1
+        elif keys[pygame.K_a]:
+            self.direction.x = -1
+        else:
+            self.direction.x = 0
+        
+        if keys[pygame.K_SPACE]:
+            self.jump()
 
-        if keys[pygame.K_RIGHT]: self.direction.x = 1
-        elif keys[pygame.K_LEFT]: self.direction.x = -1
-        else: self.direction.x = 0
 
-        self.rect.x += self.direction.x * spd
-        self.rect.y += self.direction.y * spd
-        print(f"{self.speed}")
+    def grav(self):
+        self.direction.y +=  self.gravity
+        self.rect.y += self.direction.y
 
-    def update(self,spd):
-        self.move(spd)
+    def jump(self):
+        self.direction.y = self.jump_speed
+
+    def update(self):
+        self.move()
